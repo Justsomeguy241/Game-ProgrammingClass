@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -33,23 +34,28 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            CharacterBase enemy = other.GetComponent<CharacterBase>();
+            EnemyScript enemy = other.GetComponent<EnemyScript>();
 
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
-                Debug.Log(damage);
+
 
                 // Knockback
                 if (playerUpgrade != null && playerUpgrade.hasKnockback)
                 {
                     Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-                    if (rb != null)
+                    Collider2D col = other.GetComponent<Collider2D>();
+
+                    if (rb != null && col != null)
                     {
                         Vector2 knockDir = (other.transform.position - transform.position).normalized;
-                        rb.AddForce(knockDir * 300f); // Tune this value
+                        enemy.ApplyKnockback(knockDir * 10f, 1.5f);
                     }
+
+
                 }
+
 
                 // Explosive
                 if (playerUpgrade != null && playerUpgrade.hasExplosive)
@@ -107,6 +113,13 @@ public class Bullet : MonoBehaviour
     {
         playerscript = playerScript;
         damage = playerScript.damage;
+    }
+
+    private IEnumerator TemporarilyDisableTrigger(Collider2D col, float duration)
+    {
+        col.isTrigger = false; // collide with walls
+        yield return new WaitForSeconds(duration);
+        col.isTrigger = true;  // back to normal behavior
     }
 
 }

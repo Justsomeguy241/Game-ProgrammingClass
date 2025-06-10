@@ -34,7 +34,7 @@ public class ChargeBulletScript : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            CharacterBase enemy = other.GetComponent<CharacterBase>();
+            EnemyScript enemy = other.GetComponent<EnemyScript>();
 
             if (enemy != null)
             {
@@ -44,11 +44,15 @@ public class ChargeBulletScript : MonoBehaviour
                 if (playerUpgrade != null && playerUpgrade.hasKnockback)
                 {
                     Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-                    if (rb != null)
+                    Collider2D col = other.GetComponent<Collider2D>();
+
+                    if (rb != null && col != null)
                     {
                         Vector2 knockDir = (other.transform.position - transform.position).normalized;
-                        rb.AddForce(knockDir * 300f); // Tune this value
+                        enemy.ApplyKnockback(knockDir * 10f, 1.5f);
                     }
+
+
                 }
 
                 // Explosive

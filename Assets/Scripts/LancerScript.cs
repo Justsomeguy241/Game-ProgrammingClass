@@ -15,6 +15,22 @@ public class LancerScript : EnemyScript
     private enum AttackState { Idle, Charging, Firing, Cooldown }
     [SerializeField] private AttackState currentState = AttackState.Idle;
 
+    [SerializeField] private int blasterMinBounce = 5;
+    [SerializeField] private int blasterMaxBounce = 7;
+    [SerializeField] private int lancerMinMoney = 5;
+    [SerializeField] private int lancerMaxMoney = 7;
+
+    protected override void Start()
+    {
+        MinBounce = blasterMinBounce;
+        MaxBounce = blasterMaxBounce;
+        EnemyMinMoney = lancerMinMoney;
+        EnemyMaxMoney = lancerMaxMoney;
+
+        base.Start();
+        SetBounceRange(MinBounce, MaxBounce); // Initial bounce range
+    }
+
     protected override void Update()
     {
         base.Update(); // Handles bouncing and moving down
@@ -66,6 +82,11 @@ public class LancerScript : EnemyScript
         if (chargeEffect != null)
         {
             activeChargeEffect = Instantiate(chargeEffect, firePoint.position, Quaternion.identity);
+            ChargeEffectScript chargescript = activeChargeEffect.GetComponent<ChargeEffectScript>();
+            if (chargescript != null) 
+            {
+                chargescript.SetLancerScript(this);
+            }
         }
     }
 
@@ -98,5 +119,24 @@ public class LancerScript : EnemyScript
 
         currentState = AttackState.Cooldown;
         stateTimer = laserCooldown;
+    }
+
+    private bool isShooting = false;
+
+    public void SetIsShooting(bool state)
+    {
+        isShooting = state;
+    }
+
+    protected override bool CanDescend()
+    {
+        return !isShooting;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(beam);
+        Destroy(activeChargeEffect);
     }
 }

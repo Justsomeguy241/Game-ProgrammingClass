@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : CharacterBase
@@ -8,6 +9,7 @@ public class PlayerScript : CharacterBase
 
     private float chargetime = 0f;
     private bool ischarging = false;
+    public int Money;
 
     public GameObject bulletPrefab;
     public GameObject ChargeShotPreFab;
@@ -17,6 +19,8 @@ public class PlayerScript : CharacterBase
 
     private bool hasPlayedChargeLoop = false;
     private List<GameObject> activeChargeEffects = new List<GameObject>();
+    public HealthBarUI healthBarUI;
+
 
     [Header("Spirtes")]
     public Sprite baseSprite;
@@ -36,17 +40,11 @@ public class PlayerScript : CharacterBase
     private float originalSpeed;
     private int originalDamage;
 
-    [Header("Enemy Spawn")]
-    public GameObject BlasterPrefab;
-    public GameObject StrikerPrefab;
-    public GameObject LancerPrefab;
-    public GameObject SplitterPrefab;
-    public GameObject FortressPrefab;
-
 
     protected override void Start()
     {
         
+
         base.Start();   
 
         playerscript = GetComponent<PlayerScript>();
@@ -54,8 +52,8 @@ public class PlayerScript : CharacterBase
         spriteRenderer = GetComponent<SpriteRenderer>(); 
         spriteRenderer.sprite = baseSprite; // Set default
 
-        
 
+        healthBarUI.UpdateHealthBar(3);
     }
 
     void Update()
@@ -66,20 +64,12 @@ public class PlayerScript : CharacterBase
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         worldPos.z = 0; // Important for 2D games to keep it on the correct plane
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Instantiate(BlasterPrefab, worldPos, Quaternion.identity);
+           Application.Quit();
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Instantiate(LancerPrefab, worldPos, Quaternion.identity);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Instantiate(StrikerPrefab, worldPos, Quaternion.identity);
-        }
+        
         
     }
 
@@ -268,7 +258,10 @@ public class PlayerScript : CharacterBase
             ActivateAdrenalineSurge();
         }
 
+        ;
         base.TakeDamage(amount);
+        healthBarUI.UpdateHealthBar(currentHP);
+
     }
 
     void ActivateAdrenalineSurge()
@@ -287,16 +280,33 @@ public class PlayerScript : CharacterBase
     }
     protected override void Die()
     {
-        if (upgradeManager.hasSecondWind & !upgradeManager.hasUsedSecondWind) 
+        if (upgradeManager.hasSecondWind && !upgradeManager.hasUsedSecondWind)
         {
             upgradeManager.hasUsedSecondWind = true;
             currentHP = 1;
-        } 
+        }
         else
         {
-            base.Die();
+            // Stop enemy spawning
+            WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+            if (waveManager != null)
+            {
+                waveManager.StopAllCoroutines(); // Stops further spawning
+            }
+         
+
+            // Show Game Over screen
+            GameOverManager gameOverManager = FindFirstObjectByType<GameOverManager>();
+            if (gameOverManager != null)
+            {
+                gameOverManager.ShowGameOver(); 
+            }
+
+            // Optionally disable the player object
+            gameObject.SetActive(false);
         }
     }
+
     System.Collections.IEnumerator ResetAdrenalineSurge()
     {
         yield return new WaitForSeconds(adrenalineDuration);

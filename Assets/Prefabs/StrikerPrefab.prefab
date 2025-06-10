@@ -142,11 +142,26 @@ MonoBehaviour:
   targetBounces: 0
   bounceCount: 0
   fireCooldown: 0
+  bounceSpeed: 4
+  verticalStep: 1.5
+  maxFloors: 5
+  goingRight: 0
+  isTrackingPlayer: 0
   bulletPrefab: {fileID: 166897984114208791, guid: df3d0b348429ca74dbc63d24a7b4996a, type: 3}
   firePoint: {fileID: 1001995351139652509}
-  bounceSpeed: 2
   minFireInterval: 1
   maxFireInterval: 2
+  MinBounce: 1
+  MaxBounce: 3
+  floorYPositions:
+  - 3
+  - 2
+  - 1
+  - 0
+  - -1
+  descendSpeed: 3
+  blasterMinBounce: 4
+  blasterMaxBounce: 6
 --- !u!50 &675918819397617319
 Rigidbody2D:
   serializedVersion: 5

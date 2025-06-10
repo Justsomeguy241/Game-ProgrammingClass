@@ -17,12 +17,16 @@ public class StikerBulletScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerScript player = collision.GetComponent<PlayerScript>();
-
+            Destroy(gameObject);
 
             if (player != null)
             {
                 player.TakeDamage(damage);
             }
+        } 
+        else if (collision.CompareTag("Floor"))
+        {
+            Destroy(gameObject);
         }
     }
     

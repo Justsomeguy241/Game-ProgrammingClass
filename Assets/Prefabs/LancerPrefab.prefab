@@ -111,18 +111,40 @@ MonoBehaviour:
   targetBounces: 0
   bounceCount: 0
   fireCooldown: 0
+  bounceSpeed: 1.5
+  verticalStep: 1.5
+  maxFloors: 5
+  goingRight: 0
+  isTrackingPlayer: 0
+  EnemyMinMoney: 0
+  EnemyMaxMoney: 0
   bulletPrefab: {fileID: 0}
   firePoint: {fileID: 128892558311944861}
-  bounceSpeed: 2
   minFireInterval: 1
   maxFireInterval: 2
+  MinBounce: 1
+  MaxBounce: 3
+  floorYPositions:
+  - 3
+  - 2
+  - 1
+  - 0
+  - -1
+  descendSpeed: 3
+  possibleUpgradePrefabs:
+  - {fileID: 5048874965991839565, guid: f1e85610f3cfa6547bb6a2c0d5d0b98b, type: 3}
+  upgradeDropChance: 1
   chargeDuration: 2
-  laserDuration: 3
+  laserDuration: 1.5
   laserCooldown: 4
   chargeEffect: {fileID: 7149890776955198643, guid: 841170b5f399a144d83281432435e589, type: 3}
   laserBeamPrefab: {fileID: 3413330185180874442, guid: 07f97ef353444cf4ba362da3f31d0875, type: 3}
   stateTimer: 3
   currentState: 0
+  blasterMinBounce: 5
+  blasterMaxBounce: 7
+  lancerMinMoney: 5
+  lancerMaxMoney: 7
 --- !u!50 &3951654019778731849
 Rigidbody2D:
   serializedVersion: 5
