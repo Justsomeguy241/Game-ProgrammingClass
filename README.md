@@ -10,32 +10,46 @@ Space Invaders Evolved is a fast-paced arcade shooter where you face endless wav
 
 ## Key Features & Personal Contributions
 Core Gameplay Features
-- **Character Switching** — Swap between the fox and the crow anytime to tackle puzzles and platforming challenges.  
-- **Unique Abilities**  
-  - **Fox:** double jump, push & pull boxes to clear paths or reach new areas.  
-  - **Crow:** fly and carry boxes to higher places (some heavy boxes are too heavy for the crow).  
-- **Dynamic Levels** — Reach a trigger point and the level flips/turns, changing its shape and look and revealing new routes and puzzles.  
-- **Puzzle & Platforming Mix** — Thoughtful puzzles combined with skill-based platforming.  
-- **Teamwork Gameplay** — Combine both characters' abilities to solve puzzles and progress.
-
+- **Endless Wave System** — Implemented continuous enemy spawning with progressive difficulty scaling.
+- **Universal Enemy Behavior System** — Designed a shared behavioral framework governing all enemy types:
+  - Enemies descend through six vertical tiers, each representing a phase of approach toward the player.
+  - Tier transitions are triggered by the number of wall bounces, with each enemy type having distinct descent speeds and bounce limits.
+  - Upon reaching the final (sixth) tier, all enemies switch to aggressive pursuit mode, directly chasing the player and detonating on impact as a punishment mechanic for delayed elimination.
+- **Enemy Types & Behaviors**  
+  - **Strikers:** Standard enemies that swarm the player in large numbers, firing straightforward projectiles and using group-based movement patterns.
+  - **Bombers:**  Slow-moving enemies that drop bombs creating area-of-effect explosions; maintain steady movement and drop rates regardless of wave speed.
+  - **Snipers:** Faster enemies that descend through tiers quicker than others, firing lasers that block off sections of the arena.
+- **Power-Up System** — Developed instant-activation power-ups with timed effects and stackable upgrades, including:
+  - **Explosive Bullets:** Projectiles that detonate with splash damage.
+  - **Knockback Bullets:**  Temporary stun and pushback effect on enemies hit.
+  - **Multishot Upgrade:** Expands firing capacity up to four simultaneous projectiles.
+- **Combat & Player Control** — Designed responsive shooting mechanics, movement controls, and hit detection for a fluid arcade experience.
+- **UI and Game Flow** — Created scoring, wave tracking, and game-over logic with corresponding user interface elements.
+  
 Personal Contributions
+(Solo Developer – responsible for full development cycle)
 
-| Feature                           | Description                                                                                                           | Time Spent |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------- |
-| **Character Movement System**     | Implemented the basic 2D movement system for both Fox and Crow, including walking and jumping.                        | ~2 hours      |
-| **Fox Abilities**                 | Designed and programmed all Fox-specific mechanics: double jump, box pushing, and pulling using physics interactions. | ~5 hours      |
-| **Level Design (Playable Level)** | Created one fully playable level combining platforming and puzzle mechanics for gameplay.                             | ~5 hours      |
-| **Button System**                 | Developed the on-trigger and hold button system that activates puzzle elements such as doors and platforms.           | ~4 hours      |
+| **System / Feature**                | **Description**                                                                                                                                                | **Time Spent** |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| **Gameplay Architecture**           | Designed and implemented the main game loop, wave progression, and difficulty scaling systems.                                                                 | ~6 hours       |
+| **Universal Enemy Behavior System** | Built a shared behavioral framework controlling tier-based descent, bounce tracking, and final pursuit mechanics across all enemy types.                       | ~6 hours       |
+| **Enemy AI & Behaviors**            | Programmed three enemy archetypes (Strikers, Bomber, Sniper) with individual movement, attack, and descent-speed parameters integrated into the universal system. | ~5 hours       |
+| **Power-Up Mechanics**              | Implemented a system for instant-activation power-ups with time-based effects and stackable upgrades.                                                          | ~4 hours       |
+| **Player Controls & Combat**        | Developed responsive player control, shooting, and collision systems for consistent arcade gameplay.                                                           | ~5 hours       |
+| **UI / Game States**                | Implemented UI components for score tracking, wave indicators, and game-over transitions.                                                                      | ~3 hours       |
+| **Balancing & Playtesting**         | Tuned enemy speed, bounce count thresholds, and tier timings for balanced pacing and fair difficulty scaling.                                                  | ~4 hours       |
+| **Audio & Visual Integration**      | Integrated explosion effects, laser visuals, and impact sounds to reinforce gameplay feedback.                                                                 | ~4 hours       |
 
+Total Development Time: ~37 hours
 
 <div align="center">
   <table width="30%" style="border-collapse: collapse; border: 2px solid #ccc;">
     <tr>
       <td align="center" style="padding: 0;">
-        <img src="https://github.com/Justsomeguy241/Justsomeguy241/blob/main/Fox.gif" alt="Fox gameplay demo" width="100%">
+        <img src="https://github.com/Justsomeguy241/Justsomeguy241/blob/main/Space%20Invaders.gif" alt="gameplay demo" width="100%">
       </td>
       <td align="center" style="padding: 0;">
-        <img src="https://github.com/Justsomeguy241/Justsomeguy241/blob/main/Fox2.gif" alt="Fox gameplay demo2" width="100%">
+        <img src="" alt="gameplay demo2" width="100%">
       </td>
     </tr>
   </table>
