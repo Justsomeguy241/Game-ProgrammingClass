@@ -66,19 +66,11 @@ Total Development Time: ~37 hours
 flowchart LR
   mm[Main Menu]
   gp[Gameplay]
-  vs[Victory Screen]
-  pm[Pause Menu]
-  ls[Level Select]
+  es[End Screen]
 
-  mm -- "Click Play" --> ls
-  gp -- "Finish Level" --> vs
-  vs -- "Main Menu" --> mm
-  gp -- "Pause" --> pm
-  pm -- "Resume" --> gp
-  ls -- "Select Level" --> gp
-  ls -- "Back" --> mm
-  pm -- "Main Menu" --> mm
-
+  mm -- "Start Game" --> gp
+  gp -- "Player Death" --> es
+  es -- "Play Again" --> gp
 ```
 </div> 
 
