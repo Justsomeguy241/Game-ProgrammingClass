@@ -198,10 +198,10 @@ config:
 ---
 flowchart TD
   start["Start Gameplay"]
-  start --> init["Initialize Systems: Player, Enemy Manager, UI, Audio"]
+  start --> loop
 
   %% === GAMEPLAY CORE ===
-  init --> loop["Gameplay Loop"]
+  start --> loop["Gameplay Loop"]
   loop --> input{"Player Input"}
   input -->|"Move / Shoot"| player["Player Controller"]
   player --> shoot["Fire Bullets at Enemies"]
