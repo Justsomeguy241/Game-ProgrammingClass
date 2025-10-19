@@ -300,11 +300,11 @@ classDiagram
 
     EnemyManager --> EnemyEntity : spawns and tracks enemies
     EnemyEntity --> EnemyManager : emits OnDestroyed
-    EnemyEntity --> GameManager : emits OnWaveCleared (via EnemyManager)
+    EnemyEntity --> GameManager : emits OnWaveCleared
     EnemyEntity --> PlayerController : deals damage on explosion
 
     UpgradeSystem --> PlayerController : applies temporary effect
-    UpgradeSystem --> UIManager : optional notification
+    UpgradeSystem --> UIManager
     
     UIManager --> GameManager : invokes restart / return to gameplay
 
