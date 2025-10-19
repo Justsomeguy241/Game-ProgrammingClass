@@ -86,7 +86,7 @@ graph TD
     %% ====== INITIALIZATION ======
     subgraph "Initialization Phase"
         Start([Game Start])
-        BootNote([Boot Sequence:<br/>Load Managers, Systems, and First Scene])
+        BootNote([Boot Sequence:\nLoad Managers, Systems, and First Scene])
     end
 
     %% ====== CORE SYSTEMS ======
@@ -101,8 +101,8 @@ graph TD
     %% ====== GAMEPLAY ======
     subgraph "Gameplay Logic"
         GameManager[Game Manager]
-        PlayerController[Player Controller<br/>(Movement, Shooting, Health)]
-        UpgradeSystem[Upgrade System<br/>(Temporary Power-Ups, Buff Timers)]
+        PlayerController[Player Controller\n(Movement, Shooting, Health)]
+        UpgradeSystem[Upgrade System\n(Temporary Power-Ups, Buff Timers)]
 
         %% --- ENEMY SYSTEM ---
         subgraph "Enemy System"
@@ -162,7 +162,6 @@ graph TD
     class GameManager,PlayerController,UpgradeSystem gameplayStyle
     class EnemyManager,SpawnManager,WaveSystem,TierSystem,EnemyEntity enemyStyle
     class MainMenu,HUD,EndScreen uiStyle
-
 
 ```
 
