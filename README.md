@@ -86,7 +86,7 @@ graph TD
     %% ====== INITIALIZATION ======
     subgraph "Initialization Phase"
         Start([Game Start])
-        BootNote([Boot Sequence:\nLoad Managers, Systems, and First Scene])
+        BootNote([Boot Sequence - Load Managers Systems and First Scene])
     end
 
     %% ====== CORE SYSTEMS ======
@@ -95,21 +95,21 @@ graph TD
         AudioManager[Audio Manager]
         SceneLoader[Scene Loader]
         UIManager[UI Manager]
-        SaveSystem[Save / Scoreboard System]
+        SaveSystem[Save and Scoreboard System]
     end
 
     %% ====== GAMEPLAY ======
     subgraph "Gameplay Logic"
         GameManager[Game Manager]
-        PlayerController[Player Controller\n(Movement, Shooting, Health)]
-        UpgradeSystem[Upgrade System\n(Temporary Power-Ups, Buff Timers)]
+        PlayerController[Player Controller - Movement Shooting Health]
+        UpgradeSystem[Upgrade System - Power Ups and Buff Timers]
 
         %% --- ENEMY SYSTEM ---
         subgraph "Enemy System"
             EnemyManager[Enemy Manager]
             SpawnManager[Spawn Manager]
             WaveSystem[Wave System]
-            TierSystem[Tier & Behavior Logic]
+            TierSystem[Tier and Behavior Logic]
             EnemyEntity[Enemy Entity]
         end
     end
@@ -117,8 +117,8 @@ graph TD
     %% ====== USER INTERFACE ======
     subgraph "UI System"
         MainMenu[Main Menu]
-        HUD[In-Game HUD]
-        EndScreen[End Screen / Scoreboard]
+        HUD[In Game HUD]
+        EndScreen[End Screen and Scoreboard]
     end
 
     %% ====== FLOW CONNECTIONS ======
