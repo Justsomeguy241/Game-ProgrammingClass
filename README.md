@@ -78,50 +78,90 @@ flowchart LR
 
 ```mermaid
 
-flowchart TD
-  start["Game Start"]
-  start --> menu["Main Menu"]
-  menu -->|"Start Game"| load["Load Gameplay Scene"]
-  menu -->|"Settings"| options["Adjust Volume and Preferences"]
-  options --> menu
+---
+config:
+  theme: neutral
+  look: neo
+---
+graph TD
+    %% ====== INITIALIZATION ======
+    subgraph "Initialization Phase"
+        Start([Game Start])
+        BootNote([Boot Sequence - Load Managers Systems and First Scene])
+    end
 
-  %% === GAMEPLAY CORE ===
-  load --> init["Initialize Systems: Player, Enemy Manager, UI, Audio"]
-  init --> play["Gameplay Loop"]
+    %% ====== CORE SYSTEMS ======
+    subgraph "Core Systems"
+        InputManager[Input Manager]
+        AudioManager[Audio Manager]
+        SceneLoader[Scene Loader]
+        UIManager[UI Manager]
+        SaveSystem[Save and Scoreboard System]
+    end
 
-  play --> playerInput{"Player Input"}
-  playerInput -->|"Move / Shoot"| player["Player Controller"]
-  player --> shoot["Fire Bullets at Enemies"]
+    %% ====== GAMEPLAY ======
+    subgraph "Gameplay Logic"
+        GameManager[Game Manager]
+        PlayerController[Player Controller - Movement Shooting Health]
+        UpgradeSystem[Upgrade System - Power Ups and Buff Timers]
+    end
 
-  %% === ENEMY SYSTEM ===
-  play --> EM["Enemy Manager"]
-  EM --> spawn["Spawn Wave"]
-  spawn --> enemy["Enemy Entity"]
-  enemy --> behavior["Apply Tier and Movement Behavior"]
-  behavior -->|"Tier 6"| chase["Chase Player and Explode"]
-  enemy -->|"Destroyed"| drop["Drop Power-Up"]
-  drop --> upgrade["Apply Temporary Upgrade"]
+    %% ====== ENEMY SYSTEM ======
+    subgraph "Enemy System"
+        EnemyManager[Enemy Manager - Controls Waves and Tier Behavior]
+        SpawnManager[Spawn Manager]
+        EnemyEntity[Enemy Entity - Base Enemy Logic]
+    end
 
-  %% === POWER-UP SYSTEM ===
-  upgrade -->|"Time Expired"| revert["Revert to Normal State"]
-  revert --> player
+    %% ====== USER INTERFACE ======
+    subgraph "UI System"
+        MainMenu[Main Menu]
+        HUD[In Game HUD]
+        EndScreen[End Screen and Scoreboard]
+    end
 
-  %% === SCORE AND WAVE LOGIC ===
-  enemy --> score["Increase Score"]
-  score --> waves{"Wave Cleared?"}
-  waves -->|"Yes"| nextWave["Spawn Next Wave"]
-  waves -->|"No"| play
-  nextWave --> spawn
+    %% ====== FLOW CONNECTIONS ======
+    Start --> BootNote
+    BootNote --> InputManager
+    BootNote --> AudioManager
+    BootNote --> SceneLoader
+    BootNote --> UIManager
+    BootNote --> SaveSystem
 
-  %% === HEALTH / GAME OVER ===
-  player --> hit{"Player Hit?"}
-  hit -->|"Yes"| hpCheck{"Health > 0?"}
-  hpCheck -->|"No"| endScr["End Screen: Display Scoreboard"]
-  hpCheck -->|"Yes"| play
+    %% Gameplay Links
+    InputManager --> PlayerController
+    PlayerController --> GameManager
+    UpgradeSystem --> PlayerController
+    GameManager --> UIManager
+    GameManager --> SaveSystem
 
-  endScr --> save["Save Highest Wave or Score"]
-  save --> restart["Restart or Return to Main Menu"]
-  restart --> menu
+    %% Enemy Links
+    GameManager --> EnemyManager
+    EnemyManager --> SpawnManager
+    SpawnManager --> EnemyEntity
+    EnemyEntity --> UpgradeSystem
+    EnemyManager --> GameManager
+
+    %% UI Links
+    UIManager --> MainMenu
+    UIManager --> HUD
+    UIManager --> EndScreen
+    MainMenu --> GameManager
+    HUD --> PlayerController
+    EndScreen --> MainMenu
+
+    %% ====== STYLING ======
+    classDef initStyle fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef systemStyle fill:#ede7f6,stroke:#4a148c,stroke-width:2px
+    classDef gameplayStyle fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef enemyStyle fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef uiStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class Start,BootNote initStyle
+    class InputManager,AudioManager,SceneLoader,UIManager,SaveSystem systemStyle
+    class GameManager,PlayerController,UpgradeSystem gameplayStyle
+    class EnemyManager,SpawnManager,EnemyEntity enemyStyle
+    class MainMenu,HUD,EndScreen uiStyle
 
 ```
 
