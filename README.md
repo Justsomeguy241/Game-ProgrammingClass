@@ -219,11 +219,11 @@ flowchart TD
   upgrade -->|"Time Expired"| revert["Revert to Normal State"]
   revert --> player
 
-  %% === SCORE AND WAVE LOGIC ===
-  enemy --> score["Increase Score"]
-  score --> waves{"Wave Cleared?"}
-  waves -->|"Yes"| nextWave["Spawn Next Wave"]
+  %% === WAVE / SCORE LOGIC ===
+  enemy --> waves{"Wave Cleared?"}
+  waves -->|"Yes"| score["Increase Score"]
   waves -->|"No"| loop
+  score --> nextWave["Spawn Next Wave"]
   nextWave --> spawn
 
   %% === HEALTH / GAME OVER ===
