@@ -77,54 +77,50 @@ flowchart LR
 ## Layer / Module Design 
 
 ```mermaid
----
-config:
-  theme: redux
-  look: neo
----
+
 flowchart TD
-  start([Game Start])
-  start --> menu[Main Menu]
-  menu -->|Start Game| load[Load Gameplay Scene]
-  menu -->|Settings| options[Adjust Volume and Preferences]
+  start["Game Start"]
+  start --> menu["Main Menu"]
+  menu -->|"Start Game"| load["Load Gameplay Scene"]
+  menu -->|"Settings"| options["Adjust Volume and Preferences"]
   options --> menu
 
   %% === GAMEPLAY CORE ===
-  load --> init[Initialize Systems: Player, EnemyManager, UI, Audio]
-  init --> play[Gameplay Loop]
+  load --> init["Initialize Systems: Player, Enemy Manager, UI, Audio"]
+  init --> play["Gameplay Loop"]
 
-  play --> playerInput{Player Input}
-  playerInput -->|Move / Shoot| player[Player Controller]
-  player --> shoot[Fire Bullets at Enemies]
+  play --> playerInput{"Player Input"}
+  playerInput -->|"Move / Shoot"| player["Player Controller"]
+  player --> shoot["Fire Bullets at Enemies"]
 
   %% === ENEMY SYSTEM ===
-  play --> EM[Enemy Manager]
-  EM --> spawn[Spawn Wave]
-  spawn --> enemy[Enemy Entity]
-  enemy --> behavior[Apply Tier & Movement Behavior]
-  behavior -->|Tier 6| chase[Chase Player & Explode]
-  enemy -->|Destroyed| drop[Drop Power-Up]
-  drop --> upgrade[Apply Temporary Upgrade]
+  play --> EM["Enemy Manager"]
+  EM --> spawn["Spawn Wave"]
+  spawn --> enemy["Enemy Entity"]
+  enemy --> behavior["Apply Tier and Movement Behavior"]
+  behavior -->|"Tier 6"| chase["Chase Player and Explode"]
+  enemy -->|"Destroyed"| drop["Drop Power-Up"]
+  drop --> upgrade["Apply Temporary Upgrade"]
 
   %% === POWER-UP SYSTEM ===
-  upgrade -->|Time Expired| revert[Revert to Normal State]
+  upgrade -->|"Time Expired"| revert["Revert to Normal State"]
   revert --> player
 
   %% === SCORE AND WAVE LOGIC ===
-  enemy --> score[Increase Score]
-  score --> waves{Wave Cleared?}
-  waves -->|Yes| nextWave[Spawn Next Wave]
-  waves -->|No| play
+  enemy --> score["Increase Score"]
+  score --> waves{"Wave Cleared?"}
+  waves -->|"Yes"| nextWave["Spawn Next Wave"]
+  waves -->|"No"| play
   nextWave --> spawn
 
   %% === HEALTH / GAME OVER ===
-  player --> hit{Player Hit?}
-  hit -->|Yes| hpCheck{Health > 0?}
-  hpCheck -->|No| endScr[End Screen (Display Scoreboard)]
-  hpCheck -->|Yes| play
+  player --> hit{"Player Hit?"}
+  hit -->|"Yes"| hpCheck{"Health > 0?"}
+  hpCheck -->|"No"| endScr["End Screen: Display Scoreboard"]
+  hpCheck -->|"Yes"| play
 
-  endScr --> save[Save Highest Wave / Score]
-  save --> restart[Restart or Return to Main Menu]
+  endScr --> save["Save Highest Wave or Score"]
+  save --> restart["Restart or Return to Main Menu"]
   restart --> menu
 
 ```
