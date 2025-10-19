@@ -5,7 +5,7 @@ Muhammad Rafi Ramadhan (Game Developer and Game Designer)
 
 ## About
 
-Space Invaders Evolved is a fast-paced arcade shooter where you face endless waves of alien enemies. Multiple enemy types keep you on your toes bombers that dive in for explosive damage, and snipers that fire deadly lasers to block off sections of the arena. Power-ups drop from enemies giving temporary boosts like explosive bombs, knockback blasts, and multishot upgrades that can stack up to four shots. The longer you survive, the harder and more chaotic the battle becomes.
+Space Invaders Evolved is a fast-paced arcade shooter where you face endless waves of alien enemies. Multiple enemy types keep you on your toes. bombers that dive in for explosive damage, and snipers that fire deadly lasers to block off sections of the arena. Power-ups drop from enemies giving temporary boosts like explosive bombs, knockback blasts, and multishot upgrades that can stack up to four shots. The longer you survive, the harder and more chaotic the battle becomes.
 <br>
 
 ## Key Features & Personal Contributions
@@ -95,25 +95,30 @@ graph TD
         AudioManager[Audio Manager]
         SceneLoader[Scene Loader]
         UIManager[UI Manager]
+        SaveSystem[Save / Scoreboard System]
     end
 
     %% ====== GAMEPLAY ======
     subgraph "Gameplay Logic"
         GameManager[Game Manager]
-        PlayerController[Player Controller]
-        SwitchSystem[Character Switch System]
-        Fox[Fox Controller]
-        Crow[Crow Controller]
-        PuzzleSystem[Puzzle / Physics System]
+        PlayerController[Player Controller<br/>(Movement, Shooting, Health)]
+        UpgradeSystem[Upgrade System<br/>(Temporary Power-Ups, Buff Timers)]
+
+        %% --- ENEMY SYSTEM ---
+        subgraph "Enemy System"
+            EnemyManager[Enemy Manager]
+            SpawnManager[Spawn Manager]
+            WaveSystem[Wave System]
+            TierSystem[Tier & Behavior Logic]
+            EnemyEntity[Enemy Entity]
+        end
     end
 
     %% ====== USER INTERFACE ======
     subgraph "UI System"
         MainMenu[Main Menu]
-        PauseMenu[Pause Menu]
         HUD[In-Game HUD]
-        VictoryScreen[Victory / End Screen]
-        Settings[Settings Menu]
+        EndScreen[End Screen / Scoreboard]
     end
 
     %% ====== FLOW CONNECTIONS ======
@@ -122,37 +127,42 @@ graph TD
     BootNote --> AudioManager
     BootNote --> SceneLoader
     BootNote --> UIManager
+    BootNote --> SaveSystem
 
     %% Gameplay Links
     InputManager --> PlayerController
-    PlayerController --> SwitchSystem
-    SwitchSystem --> Fox
-    SwitchSystem --> Crow
-    PlayerController --> PuzzleSystem
-    PuzzleSystem --> GameManager
+    PlayerController --> GameManager
+    GameManager --> EnemyManager
+    EnemyManager --> SpawnManager
+    SpawnManager --> EnemyEntity
+    EnemyEntity --> TierSystem
+    EnemyManager --> WaveSystem
+    EnemyEntity --> UpgradeSystem
+    UpgradeSystem --> PlayerController
     GameManager --> UIManager
+    GameManager --> SaveSystem
 
     %% UI Links
     UIManager --> MainMenu
-    UIManager --> PauseMenu
     UIManager --> HUD
-    UIManager --> VictoryScreen
-    UIManager --> Settings
+    UIManager --> EndScreen
     MainMenu --> GameManager
-    PauseMenu --> GameManager
     HUD --> PlayerController
-    VictoryScreen --> MainMenu
+    EndScreen --> MainMenu
 
-    %% Styling
+    %% ====== STYLING ======
     classDef initStyle fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     classDef systemStyle fill:#ede7f6,stroke:#4a148c,stroke-width:2px
     classDef gameplayStyle fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef enemyStyle fill:#f1f8e9,stroke:#33691e,stroke-width:2px
     classDef uiStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px
 
     class Start,BootNote initStyle
-    class InputManager,AudioManager,SceneLoader,UIManager systemStyle
-    class GameManager,PlayerController,SwitchSystem,Fox,Crow,PuzzleSystem gameplayStyle
-    class MainMenu,PauseMenu,HUD,VictoryScreen,Settings uiStyle
+    class InputManager,AudioManager,SceneLoader,UIManager,SaveSystem systemStyle
+    class GameManager,PlayerController,UpgradeSystem gameplayStyle
+    class EnemyManager,SpawnManager,WaveSystem,TierSystem,EnemyEntity enemyStyle
+    class MainMenu,HUD,EndScreen uiStyle
+
 
 ```
 
