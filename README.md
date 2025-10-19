@@ -197,25 +197,20 @@ config:
   look: neo
 ---
 flowchart TD
-  start(["Game Start"])
-  start --> menu["Main Menu"]
-  menu -->|"Start Game"| load["Load Gameplay Scene"]
-  menu -->|"Settings"| options["Adjust Volume and Preferences"]
-  options --> menu
+  start["Start Gameplay"]
+  start --> init["Initialize Systems: Player, Enemy Manager, UI, Audio"]
 
   %% === GAMEPLAY CORE ===
-  load --> init["Initialize Systems - Player, Enemy Manager, UI, Audio"]
-  init --> play["Gameplay Loop"]
-
-  play --> playerInput{"Player Input"}
-  playerInput -->|"Move / Shoot"| player["Player Controller"]
+  init --> loop["Gameplay Loop"]
+  loop --> input{"Player Input"}
+  input -->|"Move / Shoot"| player["Player Controller"]
   player --> shoot["Fire Bullets at Enemies"]
 
   %% === ENEMY SYSTEM ===
-  play --> EM["Enemy Manager"]
+  loop --> EM["Enemy Manager"]
   EM --> spawn["Spawn Wave"]
   spawn --> enemy["Enemy Entity"]
-  enemy --> behavior["Apply Tier and Movement Behavior"]
+  enemy --> behavior["Apply Tier & Movement Behavior"]
   behavior -->|"Tier 6"| chase["Chase Player and Explode"]
   enemy -->|"Destroyed"| drop["Drop Power-Up"]
   drop --> upgrade["Apply Temporary Upgrade"]
@@ -228,18 +223,18 @@ flowchart TD
   enemy --> score["Increase Score"]
   score --> waves{"Wave Cleared?"}
   waves -->|"Yes"| nextWave["Spawn Next Wave"]
-  waves -->|"No"| play
+  waves -->|"No"| loop
   nextWave --> spawn
 
   %% === HEALTH / GAME OVER ===
   player --> hit{"Player Hit?"}
   hit -->|"Yes"| hpCheck{"Health > 0?"}
-  hpCheck -->|"No"| endScr["End Screen - Display Scoreboard"]
-  hpCheck -->|"Yes"| play
+  hpCheck -->|"No"| endScr["End Screen: Display Scoreboard"]
+  hpCheck -->|"Yes"| loop
 
-  endScr --> save["Save Highest Wave or Score"]
-  save --> restart["Restart or Return to Main Menu"]
-  restart --> menu
+  %% === LOOP BACK AFTER DEATH ===
+  endScr --> reset["Reset Player & Enemy States"]
+  reset --> loop
 
 ```
 
