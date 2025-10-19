@@ -1,6 +1,6 @@
 ## Developer & Contributions
 
-Muhammad Rafi R (Game Developer)
+Muhammad Rafi Ramadhan (Game Developer and Game Designer)
   <br>
 
 ## About
