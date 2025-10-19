@@ -127,17 +127,6 @@ flowchart TD
   save --> restart[Restart or Return to Main Menu]
   restart --> menu
 
-  %% === STYLE ===
-  classDef core fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
-  classDef enemy fill:#ffebee,stroke:#b71c1c,stroke-width:2px
-  classDef logic fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-  classDef ui fill:#ede7f6,stroke:#4a148c,stroke-width:2px
-
-  class start,menu,load,options,endScr,save,restart ui
-  class init,play,playerInput,player,shoot,hit,hpCheck core
-  class EM,spawn,enemy,behavior,chase,drop,upgrade,revert,nextWave enemy
-  class score,waves logic
-
 ```
 
 
