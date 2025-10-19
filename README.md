@@ -193,50 +193,66 @@ The core gameplay of Space Invaders Evolved including player control, enemy wave
 ```mermaid
 ---
 config:
-  theme: redux
+  theme: neutral
   look: neo
 ---
 flowchart TD
+    %% === GAME INITIALIZATION ===
+    start([Game Start])
+    start --> load[Load Gameplay Scene\n(Initialize Managers and Systems)]
 
-  %% --- Core Gameplay Loop ---
-  start([Game Start])
-  start --> init[Initialize Gameplay Scene<br/>(Load Player, EnemyManager, UI)]
-  init --> playerInput{Player Input}
+    %% === CORE SYSTEMS ===
+    subgraph "Core Systems"
+        GM[Game Manager\n(Handles Game States, Score, Progression)]
+        AM[Audio Manager\n(Controls BGM and SFX)]
+        UI[UI Manager\n(Displays HUD, Scoreboard, End Screen)]
+    end
 
-  %% --- Player Control & Combat ---
-  playerInput -->|"Move / Shoot"| playerAct[PlayerController<br/>(Movement, Shooting, Health)]
-  playerAct --> bullet[Projectile System<br/>(Spawn & Manage Bullets)]
+    load --> GM
+    load --> AM
+    load --> UI
 
-  %% --- Enemy System ---
-  init --> enemyMgr[EnemyManager<br/>(Controls Waves & Tiers)]
-  enemyMgr --> waveSys[Wave System<br/>(Spawns Enemies Per Wave)]
-  waveSys --> spawnMgr[SpawnManager<br/>(Handles Spawn Timing & Positions)]
-  spawnMgr --> enemy[EnemyEntity<br/>(Movement, Tier Progression, Collision)]
+    %% === PLAYER SYSTEM ===
+    subgraph "Player System"
+        PC[Player Controller\n(Movement, Shooting, Health)]
+        US[Upgrade System\n(Handles Power-ups and Ability Upgrades)]
+    end
 
-  %% --- Enemy Behavior & Tier System ---
-  enemy -->|Bounce on Walls| tierProg[Tier Progression<br/>(Advance Tier After Bounce)]
-  tierProg -->|Reach Final Tier| chase[Chase Player<br/>and Explode on Contact]
-  chase --> dmg[Player Takes Damage]
+    GM --> PC
+    PC --> US
 
-  %% --- Upgrade System ---
-  enemy -->|Defeated| drop[Drop Upgrade]
-  drop --> upgradeSys[Upgrade System<br/>(Apply Temporary Buffs)]
-  upgradeSys --> playerAct
+    %% === ENEMY SYSTEM ===
+    subgraph "Enemy System"
+        EM[Enemy Manager\n(Spawning, Wave Logic, Tier Progression)]
+        EE[Enemy Entity\n(Behavior, Movement, Collision)]
+    end
 
-  %% --- Score & Progress ---
-  enemy --> score[Add Score / Track Waves]
-  score --> waveChk{All Enemies Defeated?}
-  waveChk -->|Yes| nextWave[Spawn Next Wave]
-  waveChk -->|No| playerInput
+    GM --> EM
+    EM --> EE
 
-  nextWave --> enemyMgr
+    %% === GAMEPLAY FLOW ===
+    PC -->|"Destroys Enemies"| EE
+    EE -->|"Drops Power-ups"| US
+    EM -->|"Spawns New Wave"| EE
 
-  %% --- End Game Flow ---
-  dmg --> hpChk{Player HP > 0?}
-  hpChk -->|Yes| playerInput
-  hpChk -->|No| gameOver[End Screen<br/>(Display Score & Waves Survived)]
-  gameOver --> save[SaveSystem<br/>(Store High Score)]
-  save --> menu[Return to Main Menu]
+    %% === WAVE / DEATH LOGIC ===
+    EE -->|"Reaches Final Tier"| chase[Chase Player and Explode]
+    PC -->|"HP <= 0"| end[End Screen\n(Display Scoreboard and Waves Survived)]
+    GM --> end
+
+    %% === RETURN FLOW ===
+    end --> restart[Restart or Return to Main Menu]
+
+    %% === STYLE DEFINITIONS ===
+    classDef systemStyle fill:#ede7f6,stroke:#4a148c,stroke-width:2px
+    classDef playerStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef enemyStyle fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+    classDef logicStyle fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+
+    class GM,AM,UI systemStyle
+    class PC,US playerStyle
+    class EM,EE enemyStyle
+    class start,load,chase,end,restart logicStyle
 
 ```
 
