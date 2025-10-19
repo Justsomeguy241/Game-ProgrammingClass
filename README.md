@@ -199,13 +199,13 @@ config:
 flowchart TD
     %% === GAME INITIALIZATION ===
     start([Game Start])
-    start --> load[Load Gameplay Scene\n(Initialize Managers and Systems)]
+    start --> load["Load Gameplay Scene (Initialize Managers and Systems)"]
 
     %% === CORE SYSTEMS ===
     subgraph "Core Systems"
-        GM[Game Manager\n(Handles Game States, Score, Progression)]
-        AM[Audio Manager\n(Controls BGM and SFX)]
-        UI[UI Manager\n(Displays HUD, Scoreboard, End Screen)]
+        GM["Game Manager (Handles Game States, Score, Progression)"]
+        AM["Audio Manager (Controls BGM and SFX)"]
+        UI["UI Manager (Displays HUD, Scoreboard, End Screen)"]
     end
 
     load --> GM
@@ -214,8 +214,8 @@ flowchart TD
 
     %% === PLAYER SYSTEM ===
     subgraph "Player System"
-        PC[Player Controller\n(Movement, Shooting, Health)]
-        US[Upgrade System\n(Handles Power-ups and Ability Upgrades)]
+        PC["Player Controller (Movement, Shooting, Health)"]
+        US["Upgrade System (Handles Power-ups and Ability Upgrades)"]
     end
 
     GM --> PC
@@ -223,8 +223,8 @@ flowchart TD
 
     %% === ENEMY SYSTEM ===
     subgraph "Enemy System"
-        EM[Enemy Manager\n(Spawning, Wave Logic, Tier Progression)]
-        EE[Enemy Entity\n(Behavior, Movement, Collision)]
+        EM["Enemy Manager (Spawning, Wave Logic, Tier Progression)"]
+        EE["Enemy Entity (Behavior, Movement, Collision)"]
     end
 
     GM --> EM
@@ -236,12 +236,12 @@ flowchart TD
     EM -->|"Spawns New Wave"| EE
 
     %% === WAVE / DEATH LOGIC ===
-    EE -->|"Reaches Final Tier"| chase[Chase Player and Explode]
-    PC -->|"HP <= 0"| end[End Screen\n(Display Scoreboard and Waves Survived)]
+    EE -->|"Reaches Final Tier"| chase["Chase Player and Explode"]
+    PC -->|"HP ≤ 0"| end["End Screen (Display Scoreboard and Waves Survived)"]
     GM --> end
 
     %% === RETURN FLOW ===
-    end --> restart[Restart or Return to Main Menu]
+    end --> restart["Restart or Return to Main Menu"]
 
     %% === STYLE DEFINITIONS ===
     classDef systemStyle fill:#ede7f6,stroke:#4a148c,stroke-width:2px
