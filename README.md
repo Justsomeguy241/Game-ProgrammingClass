@@ -26,8 +26,8 @@ Core Gameplay Features
 - **Combat & Player Control** — Designed responsive shooting mechanics, movement controls, and hit detection for a fluid arcade experience.
 - **UI and Game Flow** — Created scoring, wave tracking, and game-over logic with corresponding user interface elements.
   
-Personal Contributions
-(Solo Developer – responsible for full development cycle)
+<h3>Personal Contributions</h3>
+<p><em>Solo Developer – responsible for full development cycle</em></p>
 
 | **System / Feature**                | **Description**                                                                                                                                                | **Time Spent** |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
