@@ -198,7 +198,6 @@ config:
 ---
 flowchart TD
   start["Start Gameplay"]
-  start --> loop
 
   %% === GAMEPLAY CORE ===
   start --> loop["Gameplay Loop"]
