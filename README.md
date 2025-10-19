@@ -168,66 +168,65 @@ The core gameplay of Space Invaders Evolved including player control, enemy wave
 ```mermaid
 ---
 config:
-  theme: neutral
+  theme: redux
   look: neo
 ---
 flowchart TD
-    %% === GAME INITIALIZATION ===
-    start([Game Start])
-    start --> load["Load Gameplay Scene (Initialize Managers and Systems)"]
+  start(["Game Start"])
+  start --> menu["Main Menu"]
+  menu -->|"Start Game"| load["Load Gameplay Scene"]
+  menu -->|"Settings"| options["Adjust Volume and Preferences"]
+  options --> menu
 
-    %% === CORE SYSTEMS ===
-    subgraph "Core Systems"
-        GM["Game Manager (Handles Game States, Score, Progression)"]
-        AM["Audio Manager (Controls BGM and SFX)"]
-        UI["UI Manager (Displays HUD, Scoreboard, End Screen)"]
-    end
+  %% === GAMEPLAY CORE ===
+  load --> init["Initialize Systems - Player, Enemy Manager, UI, Audio"]
+  init --> play["Gameplay Loop"]
 
-    load --> GM
-    load --> AM
-    load --> UI
+  play --> playerInput{"Player Input"}
+  playerInput -->|"Move / Shoot"| player["Player Controller"]
+  player --> shoot["Fire Bullets at Enemies"]
 
-    %% === PLAYER SYSTEM ===
-    subgraph "Player System"
-        PC["Player Controller (Movement, Shooting, Health)"]
-        US["Upgrade System (Handles Power-ups and Ability Upgrades)"]
-    end
+  %% === ENEMY SYSTEM ===
+  play --> EM["Enemy Manager"]
+  EM --> spawn["Spawn Wave"]
+  spawn --> enemy["Enemy Entity"]
+  enemy --> behavior["Apply Tier and Movement Behavior"]
+  behavior -->|"Tier 6"| chase["Chase Player and Explode"]
+  enemy -->|"Destroyed"| drop["Drop Power-Up"]
+  drop --> upgrade["Apply Temporary Upgrade"]
 
-    GM --> PC
-    PC --> US
+  %% === POWER-UP SYSTEM ===
+  upgrade -->|"Time Expired"| revert["Revert to Normal State"]
+  revert --> player
 
-    %% === ENEMY SYSTEM ===
-    subgraph "Enemy System"
-        EM["Enemy Manager (Spawning, Wave Logic, Tier Progression)"]
-        EE["Enemy Entity (Behavior, Movement, Collision)"]
-    end
+  %% === SCORE AND WAVE LOGIC ===
+  enemy --> score["Increase Score"]
+  score --> waves{"Wave Cleared?"}
+  waves -->|"Yes"| nextWave["Spawn Next Wave"]
+  waves -->|"No"| play
+  nextWave --> spawn
 
-    GM --> EM
-    EM --> EE
+  %% === HEALTH / GAME OVER ===
+  player --> hit{"Player Hit?"}
+  hit -->|"Yes"| hpCheck{"Health > 0?"}
+  hpCheck -->|"No"| endScr["End Screen - Display Scoreboard"]
+  hpCheck -->|"Yes"| play
 
-    %% === GAMEPLAY FLOW ===
-    PC -->|"Destroys Enemies"| EE
-    EE -->|"Drops Power-ups"| US
-    EM -->|"Spawns New Wave"| EE
+  endScr --> save["Save Highest Wave or Score"]
+  save --> restart["Restart or Return to Main Menu"]
+  restart --> menu
 
-    %% === WAVE / DEATH LOGIC ===
-    EE -->|"Reaches Final Tier"| chase["Chase Player and Explode"]
-    PC -->|"HP ≤ 0"| end["End Screen (Display Scoreboard and Waves Survived)"]
-    GM --> end
+  %% === STYLE ===
+  classDef core fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+  classDef enemy fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+  classDef logic fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+  classDef ui fill:#ede7f6,stroke:#4a148c,stroke-width:2px
 
-    %% === RETURN FLOW ===
-    end --> restart["Restart or Return to Main Menu"]
+  class start,menu,load,options,endScr,save,restart ui
+  class init,play,playerInput,player,shoot,hit,hpCheck core
+  class EM,spawn,enemy,behavior,chase,drop,upgrade,revert,nextWave enemy
+  class score,waves logic
 
-    %% === STYLE DEFINITIONS ===
-    classDef systemStyle fill:#ede7f6,stroke:#4a148c,stroke-width:2px
-    classDef playerStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
-    classDef enemyStyle fill:#ffebee,stroke:#b71c1c,stroke-width:2px
-    classDef logicStyle fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-
-    class GM,AM,UI systemStyle
-    class PC,US playerStyle
-    class EM,EE enemyStyle
-    class start,load,chase,end,restart logicStyle
 
 ```
 
