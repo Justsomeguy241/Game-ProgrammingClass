@@ -212,9 +212,10 @@ flowchart TD
   enemy --> behavior["Apply Tier & Movement Behavior"]
   behavior -->|"Tier 6"| chase["Chase Player and Explode"]
   enemy -->|"Destroyed"| drop["Drop Power-Up"]
-  drop --> upgrade["Apply Temporary Upgrade"]
 
   %% === POWER-UP SYSTEM ===
+  drop --> upgrade["Grant Temporary Upgrade"]
+  upgrade -->|"Affects Player Stats"| player
   upgrade -->|"Time Expired"| revert["Revert to Normal State"]
   revert --> player
 
