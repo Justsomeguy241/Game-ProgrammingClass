@@ -103,15 +103,15 @@ graph TD
         GameManager[Game Manager]
         PlayerController[Player Controller - Movement Shooting Health]
         UpgradeSystem[Upgrade System - Power Ups and Buff Timers]
+    end
 
-        %% --- ENEMY SYSTEM ---
-        subgraph "Enemy System"
-            EnemyManager[Enemy Manager]
-            SpawnManager[Spawn Manager]
-            WaveSystem[Wave System]
-            TierSystem[Tier and Behavior Logic]
-            EnemyEntity[Enemy Entity]
-        end
+    %% ====== ENEMY SYSTEM ======
+    subgraph "Enemy System"
+        EnemyManager[Enemy Manager]
+        SpawnManager[Spawn Manager]
+        WaveSystem[Wave System]
+        TierSystem[Tier and Behavior Logic]
+        EnemyEntity[Enemy Entity]
     end
 
     %% ====== USER INTERFACE ======
@@ -132,15 +132,17 @@ graph TD
     %% Gameplay Links
     InputManager --> PlayerController
     PlayerController --> GameManager
+    UpgradeSystem --> PlayerController
+    GameManager --> UIManager
+    GameManager --> SaveSystem
+
+    %% Enemy Links
     GameManager --> EnemyManager
     EnemyManager --> SpawnManager
     SpawnManager --> EnemyEntity
     EnemyEntity --> TierSystem
     EnemyManager --> WaveSystem
     EnemyEntity --> UpgradeSystem
-    UpgradeSystem --> PlayerController
-    GameManager --> UIManager
-    GameManager --> SaveSystem
 
     %% UI Links
     UIManager --> MainMenu
