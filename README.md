@@ -245,68 +245,70 @@ flowchart TD
 
 
 ```mermaid
-%%{init: {'theme':'neutral', 'scale': 0.1}}%%
+%%{init: {'theme':'neutral'}}%%
 classDiagram
-    class PlayerController {
-        +Move(direction: Vector2)
-        +Jump()
-        +SwitchCharacter()
-    }
-
-    class Fox {
-        +WallJump()
-        +PushBox()
-        +PullBox()
-    }
-
-    class Crow {
-        +Fly()
-        +CarryBox(weight: float)
-    }
-
-    class PuzzleSystem {
-        +ActivateLever()
-        +PressButton()
-        +OpenDoor()
-    }
-
-    class Box {
-        +Move()
-        +IsCarryable(): bool
-    }
-
-    class FlipSystem {
-        +TriggerFlip()
-        +RotateLevel()
-    }
-
     class GameManager {
-        +StartLevel(levelName: string)
-        +CompleteLevel()
+        +OnGameStart()
+        +OnGameOver()
+        +OnWaveCleared()
+        +OnScoreUpdated(score: int)
+    }
+
+    class PlayerController {
+        +OnShoot()
+        +OnHit()
+        +OnDeath()
+        +ApplyUpgrade(type: string, duration: float)
+    }
+
+    class EnemyManager {
+        +OnSpawnWave()
+        +OnEnemyDestroyed()
+        +OnAllEnemiesCleared()
+    }
+
+    class EnemyEntity {
+        +OnDestroyed()
+        +OnReachFinalTier()
+        +Explode()
+    }
+
+    class UpgradeSystem {
+        +OnUpgradeCollected(upgradeType: string)
+        +ApplyTemporaryEffect(player: PlayerController)
     }
 
     class UIManager {
-        +ShowPauseMenu()
-        +ShowVictoryScreen()
+        +UpdateScoreUI(score: int)
+        +ShowEndScreen()
     }
 
     class AudioManager {
-        +OnPlayBGM(trackName: string)
-        +OnPlaySFX(effectName: string)
+        +PlaySFX(event: string)
+        +PlayBGM(track: string)
     }
 
-    PlayerController --> Fox : controls
-    PlayerController --> Crow : controls
-    PlayerController --> PuzzleSystem : interacts
-    Fox --> Box : pushes/pulls
-    Crow --> Box : carries
-    PuzzleSystem --> Box : requires
-    FlipSystem --> PuzzleSystem : flips
-    FlipSystem --> Fox : flips
-    FlipSystem --> Crow : flips
-    GameManager --> UIManager : manages
-    GameManager --> AudioManager : triggers
-    GameManager --> FlipSystem : activates
+    %% --- Relationships ---
+    GameManager --> PlayerController : starts / resets
+    GameManager --> EnemyManager : triggers wave spawn
+    GameManager --> UIManager : updates score / end screen
+    GameManager --> AudioManager : plays bgm/sfx
+    
+    PlayerController --> GameManager : emits OnDeath / OnScoreUpdated
+    PlayerController --> UpgradeSystem : collects upgrades
+    PlayerController --> AudioManager : requests shoot / hit SFX
+
+    EnemyManager --> EnemyEntity : spawns and tracks enemies
+    EnemyEntity --> EnemyManager : emits OnDestroyed
+    EnemyEntity --> GameManager : emits OnWaveCleared (via EnemyManager)
+    EnemyEntity --> PlayerController : deals damage on explosion
+
+    UpgradeSystem --> PlayerController : applies temporary effect
+    UpgradeSystem --> UIManager : optional notification
+    
+    UIManager --> GameManager : invokes restart / return to gameplay
+
+
 
 ```
 
