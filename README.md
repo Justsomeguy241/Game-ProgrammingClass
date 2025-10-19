@@ -107,11 +107,9 @@ graph TD
 
     %% ====== ENEMY SYSTEM ======
     subgraph "Enemy System"
-        EnemyManager[Enemy Manager]
+        EnemyManager[Enemy Manager - Controls Waves and Tier Behavior]
         SpawnManager[Spawn Manager]
-        WaveSystem[Wave System]
-        TierSystem[Tier and Behavior Logic]
-        EnemyEntity[Enemy Entity]
+        EnemyEntity[Enemy Entity - Base Enemy Logic]
     end
 
     %% ====== USER INTERFACE ======
@@ -140,9 +138,8 @@ graph TD
     GameManager --> EnemyManager
     EnemyManager --> SpawnManager
     SpawnManager --> EnemyEntity
-    EnemyEntity --> TierSystem
-    EnemyManager --> WaveSystem
     EnemyEntity --> UpgradeSystem
+    EnemyManager --> GameManager
 
     %% UI Links
     UIManager --> MainMenu
@@ -162,17 +159,16 @@ graph TD
     class Start,BootNote initStyle
     class InputManager,AudioManager,SceneLoader,UIManager,SaveSystem systemStyle
     class GameManager,PlayerController,UpgradeSystem gameplayStyle
-    class EnemyManager,SpawnManager,WaveSystem,TierSystem,EnemyEntity enemyStyle
+    class EnemyManager,SpawnManager,EnemyEntity enemyStyle
     class MainMenu,HUD,EndScreen uiStyle
+
 
 ```
 
 
 ## Modules and Features
 
-The advanced 2D platformer systems — including character switching, puzzle interactions, level progression, and dynamic audio — are powered by a modular scripting structure.
-Each module is responsible for managing specific aspects of gameplay, UI, or global systems to ensure smooth transitions and responsive player control.
-
+The core gameplay of Space Invaders Evolved including player control, enemy wave progression, upgrade mechanics, and score tracking
 | 📂 **Name**                 | 🎬 **Scene / Scope** | 📋 **Responsibility**                                                                                                                                    |
 | --------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **GameManager**             | **Gameplay**         | - Controls overall game state (playing, paused, level complete, failed)<br/>- Coordinates transitions between menus, levels, and victory screens         |
