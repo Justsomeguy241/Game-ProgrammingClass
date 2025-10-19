@@ -182,7 +182,7 @@ The core gameplay of Space Invaders Evolved including player control, enemy wave
 | **EnemyManager**      | **Gameplay**         | - Central controller for all enemy-related logic<br/>- Integrates **Wave** and **Tier** systems for pacing and progression<br/>- Coordinates spawn timings and enemy variations  |
 | **SpawnManager**      | **Gameplay**         | - Spawns enemies at calculated positions per wave<br/>- Randomizes spawn timing and enemy type for gameplay variety                                                              |
 | **EnemyEntity**       | **Gameplay**         | - Defines base enemy behavior (movement, attack, destruction)<br/>- Handles collision detection and triggers power-up drops upon death                                           |
-| **SaveSystem**        | **Global**           | - Saves and retrieves persistent data such as high scores and best wave reached<br/>- Uses file I/O or PlayerPrefs for lightweight data storage                                  |
+| **SaveSystem**        | **Global**           | - Saves and retrieves persistent data such as high scores and best wave reached                                |
 
 <br>
 
@@ -197,49 +197,46 @@ config:
   look: neo
 ---
 flowchart TD
-  %% --- Game Start & Menu ---
+
+  %% --- Core Gameplay Loop ---
   start([Game Start])
-  start --> menu{Main Menu}
+  start --> init[Initialize Gameplay Scene<br/>(Load Player, EnemyManager, UI)]
+  init --> playerInput{Player Input}
 
-  menu -->|"Select Level"| level[Load Chosen Level]
-  menu -->|"Settings"| settings[Adjust Audio/Preferences]
-  menu -->|"Quit"| quit([Exit Game])
-  settings --> menu
+  %% --- Player Control & Combat ---
+  playerInput -->|"Move / Shoot"| playerAct[PlayerController<br/>(Movement, Shooting, Health)]
+  playerAct --> bullet[Projectile System<br/>(Spawn & Manage Bullets)]
 
-  %% --- Gameplay Core ---
-  level --> input{Player Input}
-  input -->|"Move / Jump"| move[Apply Movement & Physics]
-  input -->|"Switch Character"| switch[Switch Between Fox & Crow]
+  %% --- Enemy System ---
+  init --> enemyMgr[EnemyManager<br/>(Controls Waves & Tiers)]
+  enemyMgr --> waveSys[Wave System<br/>(Spawns Enemies Per Wave)]
+  waveSys --> spawnMgr[SpawnManager<br/>(Handles Spawn Timing & Positions)]
+  spawnMgr --> enemy[EnemyEntity<br/>(Movement, Tier Progression, Collision)]
 
-  %% --- Character Abilities ---
-  switch --> fox[Fox: Wall Jump, Push/Pull Box]
-  switch --> crow[Crow: Fly, Carry Light Box]
+  %% --- Enemy Behavior & Tier System ---
+  enemy -->|Bounce on Walls| tierProg[Tier Progression<br/>(Advance Tier After Bounce)]
+  tierProg -->|Reach Final Tier| chase[Chase Player<br/>and Explode on Contact]
+  chase --> dmg[Player Takes Damage]
 
-  %% --- Puzzle System ---
-  move --> puzzle{Puzzle Interaction}
-  fox --> puzzle
-  crow --> puzzle
+  %% --- Upgrade System ---
+  enemy -->|Defeated| drop[Drop Upgrade]
+  drop --> upgradeSys[Upgrade System<br/>(Apply Temporary Buffs)]
+  upgradeSys --> playerAct
 
-  puzzle --> lever[Levers / Buttons / Doors]
-  puzzle --> box[Moveable Boxes]
-  puzzle --> wall[Popup Walls / Obstacles]
+  %% --- Score & Progress ---
+  enemy --> score[Add Score / Track Waves]
+  score --> waveChk{All Enemies Defeated?}
+  waveChk -->|Yes| nextWave[Spawn Next Wave]
+  waveChk -->|No| playerInput
 
-  %% --- Flip Mechanic ---
-  move --> flip{Flip Triggered?}
-  flip -->|Yes| doFlip[Rotate/Flip Level Layout]
-  flip -->|No| cont[Continue Gameplay]
+  nextWave --> enemyMgr
 
-  %% --- Exit System ---
-  cont --> exitChk{Both Fox & Crow at Exit?}
-  doFlip --> exitChk
-
-  exitChk -->|Yes| complete[Level Complete Panel]
-  exitChk -->|No| input
-
-  complete --> backToSelect[Return to Level Select]
-  backToSelect --> menu
-
-
+  %% --- End Game Flow ---
+  dmg --> hpChk{Player HP > 0?}
+  hpChk -->|Yes| playerInput
+  hpChk -->|No| gameOver[End Screen<br/>(Display Score & Waves Survived)]
+  gameOver --> save[SaveSystem<br/>(Store High Score)]
+  save --> menu[Return to Main Menu]
 ```
 
 
