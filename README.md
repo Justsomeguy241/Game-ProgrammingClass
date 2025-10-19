@@ -168,28 +168,21 @@ graph TD
 
 ## Modules and Features
 
-The core gameplay of Space Invaders Evolved including player control, enemy wave progression, upgrade mechanics, and score tracking
-| 📂 **Name**                 | 🎬 **Scene / Scope** | 📋 **Responsibility**                                                                                                                                    |
-| --------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **GameManager**             | **Gameplay**         | - Controls overall game state (playing, paused, level complete, failed)<br/>- Coordinates transitions between menus, levels, and victory screens         |
-| **AudioManager**            | **Global**           | - Manages background music (OST) and sound effects (SFX)<br/>- Handles audio settings such as volume and mute controls                                   |
-| **MainMenu**                | **Main Menu**        | - Displays the main menu interface<br/>- Provides access to level selection, settings, and exit options                                                  |
-| **OptionsPanel**            | **Main Menu**        | - Adjusts and applies user preferences (e.g., audio volume)<br/>- Saves settings for future sessions                                                     |
-| **LevelsPanel**             | **Main Menu**        | - Handles level selection<br/>- Loads the selected scene or level into gameplay                                                                          |
-| **Canvas / UI (Gameplay)**  | **Gameplay**         | - Manages on-screen UI elements such as HUD, pause menu, and level complete screens<br/>- Displays player feedback and progress indicators               |
-| **Rotator (Flip System)**   | **Gameplay**         | - Handles level rotation mechanics<br/>- Dynamically alters the environment to reveal new paths or puzzle solutions                                      |
-| **Puzzle Objects (Grid)**   | **Gameplay**         | - Manages interactable puzzle elements (e.g., levers, doors, buttons, pop-up walls)<br/>- Responds to player interactions and triggers logical responses |
-| **LargeMoveableBox**        | **Gameplay**         | - Heavy interactable object<br/>- Can be pushed or pulled by the **Fox** but not lifted<br/>- Used in environmental puzzles                              |
-| **SmallTrash**              | **Gameplay**         | - Lightweight object<br/>- Can be picked up and carried by the **Crow** to solve certain puzzles                                                         |
-| **Fox**                     | **Gameplay**         | - Playable character focused on strength-based actions<br/>- Can wall-jump, push, and pull heavy objects                                                 |
-| **Crow**                    | **Gameplay**         | - Playable character focused on agility<br/>- Can fly and carry light objects to assist in puzzle-solving                                                |
-| **Character Switch System** | **Gameplay**         | - Handles input-based switching between the Fox and the Crow<br/>- Ensures smooth transitions while retaining control context                            |
-| **FoxAndCrowDetector**      | **Gameplay**         | - Detects when both Fox and Crow reach the exit area<br/>- Triggers level completion event through **GameManager**                                       |
-| **ExitDoorR**               | **Gameplay**         | - Represents the exit point of each level<br/>- Works with **FoxAndCrowDetector** to activate victory conditions                                         |
-
-
-
-
+The core gameplay of Space Invaders Evolved including player control, enemy wave progression, upgrade mechanics, and score tracking. Each module is responsible for managing specific gameplay, UI, or system-level functionality to ensure stable performance and scalability.
+| 📂 **Name**           | 🎬 **Scene / Scope** | 📋 **Responsibility**                                                                                                                                                            |
+| --------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **GameManager**       | **Gameplay**         | - Controls overall game state (active, paused, game over)<br/>- Manages game flow between gameplay and end screen<br/>- Handles timing, score updates, and wave coordination     |
+| **AudioManager**      | **Global**           | - Controls background music and sound effects<br/>- Handles mute toggles and audio settings persistence                                                                          |
+| **MainMenu**          | **Main Menu**        | - Displays title and main interface<br/>- Provides access to game start and exit options                                                                                         |
+| **EndScreen**         | **End Scene**        | - Displays post-game results (score, waves survived)<br/>- Interfaces with **SaveSystem** to store high scores                                                                   |
+| **HUD / UIManager**   | **Gameplay**         | - Manages player HUD including score, health, and active upgrades<br/>- Displays current wave number and notifications                                                           |
+| **PlayerController**  | **Gameplay**         | - Controls player ship movement, shooting, and health<br/>- Handles collision with enemies and projectiles                                                                       |
+| **Projectile System** | **Gameplay**         | - Manages player bullet instantiation and movement<br/>- Optimizes object reuse using projectile pooling                                                                         |
+| **Upgrade System**    | **Gameplay**         | - Handles upgrade drops from defeated enemies<br/>- Applies instant temporary effects (e.g., Multishot, Explosive Shots, Knockback)<br/>- Manages duration and cooldown tracking |
+| **EnemyManager**      | **Gameplay**         | - Central controller for all enemy-related logic<br/>- Integrates **Wave** and **Tier** systems for pacing and progression<br/>- Coordinates spawn timings and enemy variations  |
+| **SpawnManager**      | **Gameplay**         | - Spawns enemies at calculated positions per wave<br/>- Randomizes spawn timing and enemy type for gameplay variety                                                              |
+| **EnemyEntity**       | **Gameplay**         | - Defines base enemy behavior (movement, attack, destruction)<br/>- Handles collision detection and triggers power-up drops upon death                                           |
+| **SaveSystem**        | **Global**           | - Saves and retrieves persistent data such as high scores and best wave reached<br/>- Uses file I/O or PlayerPrefs for lightweight data storage                                  |
 
 <br>
 
