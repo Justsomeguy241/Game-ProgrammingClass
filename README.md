@@ -46,10 +46,7 @@ Total Development Time: ~37 hours
   <table width="30%" style="border-collapse: collapse; border: 2px solid #ccc;">
     <tr>
       <td align="center" style="padding: 0;">
-        <img src="https://github.com/Justsomeguy241/Justsomeguy241/blob/main/Space%20Invaders.gif" alt="gameplay demo" width="100%">
-      </td>
-      <td align="center" style="padding: 0;">
-        <img src="" alt="gameplay demo2" width="100%">
+        <img src="https://github.com/Justsomeguy241/Justsomeguy241/blob/main/Space%20Invaders.gif" alt="gameplay demo" width="50%">
       </td>
     </tr>
   </table>
