@@ -27,7 +27,7 @@ Core Gameplay Features
 - **UI and Game Flow** — Created scoring, wave tracking, and game-over logic with corresponding user interface elements.
   
 <h3>Personal Contributions</h3>
-<p><em>Solo Developer – responsible for full development cycle</em></p>
+
 
 | **System / Feature**                | **Description**                                                                                                                                                | **Time Spent** |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
