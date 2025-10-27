@@ -8,24 +8,6 @@ Muhammad Rafi Ramadhan (Game Developer and Game Designer)
 Space Invaders Evolved is a fast-paced arcade shooter where you face endless waves of alien enemies. Multiple enemy types keep you on your toes. bombers that dive in for explosive damage, and snipers that fire deadly lasers to block off sections of the arena. Power-ups drop from enemies giving temporary boosts like explosive bombs, knockback blasts, and multishot upgrades that can stack up to four shots. The longer you survive, the harder and more chaotic the battle becomes.
 <br>
 
-## Key Features & Personal Contributions
-Core Gameplay Features
-- **Endless Wave System** — Implemented continuous enemy spawning with progressive difficulty scaling.
-- **Universal Enemy Behavior System** — Designed a shared behavioral framework governing all enemy types:
-  - Enemies descend through six vertical tiers, each representing a phase of approach toward the player.
-  - Tier transitions are triggered by the number of wall bounces, with each enemy type having distinct descent speeds and bounce limits.
-  - Upon reaching the final (sixth) tier, all enemies switch to aggressive pursuit mode, directly chasing the player and detonating on impact as a punishment mechanic for delayed elimination.
-- **Enemy Types & Behaviors**  
-  - **Strikers:** Standard enemies that swarm the player in large numbers, firing straightforward projectiles and using group-based movement patterns.
-  - **Bombers:**  Slow-moving enemies that drop bombs creating area-of-effect explosions; maintain steady movement and drop rates regardless of wave speed.
-  - **Snipers:** Faster enemies that descend through tiers quicker than others, firing lasers that block off sections of the arena.
-- **Power-Up System** — Developed instant-activation power-ups with timed effects and stackable upgrades, including:
-  - **Explosive Bullets:** Projectiles that detonate with splash damage.
-  - **Knockback Bullets:**  Temporary stun and pushback effect on enemies hit.
-  - **Multishot Upgrade:** Expands firing capacity up to four simultaneous projectiles.
-- **Combat & Player Control** — Designed responsive shooting mechanics, movement controls, and hit detection for a fluid arcade experience.
-- **UI and Game Flow** — Created scoring, wave tracking, and game-over logic with corresponding user interface elements.
-  
 <h3>Personal Contributions</h3>
 
 
@@ -53,7 +35,23 @@ Total Development Time: ~37 hours
 </div>
 
 
-
+## Key Features & Personal Contributions
+Core Gameplay Features
+- **Endless Wave System** — Implemented continuous enemy spawning with progressive difficulty scaling.
+- **Universal Enemy Behavior System** — Designed a shared behavioral framework governing all enemy types:
+  - Enemies descend through six vertical tiers, each representing a phase of approach toward the player.
+  - Tier transitions are triggered by the number of wall bounces, with each enemy type having distinct descent speeds and bounce limits.
+  - Upon reaching the final (sixth) tier, all enemies switch to aggressive pursuit mode, directly chasing the player and detonating on impact as a punishment mechanic for delayed elimination.
+- **Enemy Types & Behaviors**  
+  - **Strikers:** Standard enemies that swarm the player in large numbers, firing straightforward projectiles and using group-based movement patterns.
+  - **Bombers:**  Slow-moving enemies that drop bombs creating area-of-effect explosions; maintain steady movement and drop rates regardless of wave speed.
+  - **Snipers:** Faster enemies that descend through tiers quicker than others, firing lasers that block off sections of the arena.
+- **Power-Up System** — Developed instant-activation power-ups with timed effects and stackable upgrades, including:
+  - **Explosive Bullets:** Projectiles that detonate with splash damage.
+  - **Knockback Bullets:**  Temporary stun and pushback effect on enemies hit.
+  - **Multishot Upgrade:** Expands firing capacity up to four simultaneous projectiles.
+- **Combat & Player Control** — Designed responsive shooting mechanics, movement controls, and hit detection for a fluid arcade experience.
+- **UI and Game Flow** — Created scoring, wave tracking, and game-over logic with corresponding user interface elements.
 
 <h2>Scene Flow</h2>
 
