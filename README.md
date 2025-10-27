@@ -2,12 +2,7 @@
 
 Muhammad Rafi Ramadhan (Game Developer and Game Designer)
   <br>
-
-## About
-
-Space Invaders Evolved is a fast-paced arcade shooter where you face endless waves of alien enemies. Multiple enemy types keep you on your toes. bombers that dive in for explosive damage, and snipers that fire deadly lasers to block off sections of the arena. Power-ups drop from enemies giving temporary boosts like explosive bombs, knockback blasts, and multishot upgrades that can stack up to four shots. The longer you survive, the harder and more chaotic the battle becomes.
-<br>
-
+  
 <h3>Personal Contributions</h3>
 
 
@@ -33,6 +28,12 @@ Total Development Time: ~37 hours
     </tr>
   </table>
 </div>
+
+## About
+
+Space Invaders Evolved is a fast-paced arcade shooter where you face endless waves of alien enemies. Multiple enemy types keep you on your toes. bombers that dive in for explosive damage, and snipers that fire deadly lasers to block off sections of the arena. Power-ups drop from enemies giving temporary boosts like explosive bombs, knockback blasts, and multishot upgrades that can stack up to four shots. The longer you survive, the harder and more chaotic the battle becomes.
+<br>
+
 
 
 ## Key Features & Personal Contributions
